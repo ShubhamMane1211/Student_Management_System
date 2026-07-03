@@ -1,0 +1,175 @@
+{% extends "base.html" %} {% block content %}
+
+<h2 class="mb-4">Dashboard</h2>
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+    <div class="card text-bg-primary">
+      <div class="card-body">
+        <h5>Total Students</h5>
+        <h2>{{ total_students }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <div class="card text-bg-success">
+      <div class="card-body">
+        <h5>Total Subjects</h5>
+        <h2>{{ total_subjects }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <div class="card text-bg-warning">
+      <div class="card-body">
+        <h5>Total Marks Entries</h5>
+        <h2>{{ total_marks }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 mb-3">
+    <div class="card text-bg-info">
+      <div class="card-body">
+        <h5>Average Marks</h5>
+        <h2>{{ average_marks }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <div class="card text-bg-danger">
+      <div class="card-body">
+        <h5>Highest Marks</h5>
+        <h2>{{ highest_marks }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <div class="card text-bg-secondary">
+      <div class="card-body">
+        <h5>Lowest Marks</h5>
+        <h2>{{ lowest_marks }}</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<h3>🏆 Top 5 Students</h3>
+
+<table class="table table-striped table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>Rank</th>
+      <th>Student</th>
+      <th>Average Marks</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for student, avg in top_students %}
+
+    <tr>
+      <td>{{ loop.index }}</td>
+
+      <td>{{ student.first_name }} {{ student.last_name }}</td>
+
+      <td>{{ "%.2f"|format(avg) }}</td>
+    </tr>
+
+    {% endfor %}
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          📚 Subject Performance
+        </div>
+
+        <div class="card-body">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Subject</th>
+
+                <th>Average</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for subject, avg in subject_statistics %}
+
+              <tr>
+                <td>{{ subject.subject_name }}</td>
+
+                <td>{{ "%.2f"|format(avg) }}%</td>
+              </tr>
+
+              {% endfor %}
+              <div class="col-lg-6 mt-4">
+                <div class="card">
+                  <div class="card-header bg-primary text-white">
+                    📝 Recent Marks
+                  </div>
+
+                  <div class="card-body">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Student</th>
+
+                          <th>Subject</th>
+
+                          <th>Marks</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {% for mark in recent_marks %}
+
+                        <tr>
+                          <td>
+                            {{ mark.student.first_name }} {{
+                            mark.student.last_name }}
+                          </td>
+
+                          <td>{{ mark.subject.subject_name }}</td>
+
+                          <td>{{ mark.marks }}</td>
+                        </tr>
+
+                        {% endfor %}
+                        <h3 class="mt-4">Grade Distribution</h3>
+
+                        <ul>
+                          <li>A+ : {{ grade_distribution["A+"] }}</li>
+
+                          <li>A : {{ grade_distribution["A"] }}</li>
+
+                          <li>B : {{ grade_distribution["B"] }}</li>
+
+                          <li>C : {{ grade_distribution["C"] }}</li>
+
+                          <li>D : {{ grade_distribution["D"] }}</li>
+
+                          <li>F : {{ grade_distribution["F"] }}</li>
+                        </ul>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </tbody>
+</table>
+
+{% endblock %}

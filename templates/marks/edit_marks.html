@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>Edit Marks</h2>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+
+  <div class="mb-3">
+    {{ form.student.label }} {{ form.student(class="form-select") }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.subject.label }} {{ form.subject(class="form-select") }}
+  </div>
+
+  <div class="mb-3">
+    {{ form.marks.label }} {{ form.marks(class="form-control") }}
+  </div>
+
+  {{ form.submit(class="btn btn-warning") }}
+</form>
+
+{% endblock %}

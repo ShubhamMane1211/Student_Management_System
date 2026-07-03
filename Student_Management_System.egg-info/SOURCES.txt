@@ -1,0 +1,7 @@
+README.md
+setup.py
+Student_Management_System.egg-info/PKG-INFO
+Student_Management_System.egg-info/SOURCES.txt
+Student_Management_System.egg-info/dependency_links.txt
+Student_Management_System.egg-info/requires.txt
+Student_Management_System.egg-info/top_level.txt

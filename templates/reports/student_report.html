@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block content %}
+
+<h2>Student Report Card</h2>
+
+<hr />
+
+<h4>{{ report.student.first_name }} {{ report.student.last_name }}</h4>
+
+<p>Roll Number: {{ report.student.roll_no }}</p>
+
+<p>Class: {{ report.student.class_name }}</p>
+
+<table class="table table-bordered">
+  <thead class="table-dark">
+    <tr>
+      <th>Subject</th>
+
+      <th>Marks</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for mark in report.marks %}
+
+    <tr>
+      <td>{{ mark.subject.subject_name }}</td>
+
+      <td>{{ mark.marks }}</td>
+    </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+<h5>Total : {{ report.total }}</h5>
+
+<h5>Average : {{ report.average }}%</h5>
+
+<h5>Grade : {{ report.grade }}</h5>
+
+<h5>Result : {{ report.result }}</h5>
+<a
+  href="{{ url_for('report.student_report_pdf',
+student_id=report.student.id) }}"
+  class="btn btn-danger"
+>
+  Download PDF
+</a>
+
+{% endblock %}
