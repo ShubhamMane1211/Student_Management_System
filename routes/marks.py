@@ -1,8 +1,7 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 
 from forms.marks_form import MarksForm
-from models.marks import Mark
 from services.marks_service import MarksService
 
 marks = Blueprint("marks", __name__, url_prefix="/marks")
@@ -42,9 +41,13 @@ def add_marks():
 @login_required
 def view_marks():
 
-    marks = Mark.query.all()
+    page = request.args.get("page", 1, type=int)
 
-    return render_template("marks/marks.html", marks=marks)
+    search = request.args.get("search", "")
+
+    marks = MarksService.search_marks(search, page)
+
+    return render_template("marks/marks.html", marks=marks, search=search)
 
 
 @marks.route("/edit/<int:mark_id>", methods=["GET", "POST"])

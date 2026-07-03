@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 
 from forms.subject_form import SubjectForm
@@ -11,9 +11,13 @@ subject = Blueprint("subject", __name__, url_prefix="/subjects")
 @login_required
 def subjects():
 
-    subjects = SubjectService.get_all_subjects()
+    page = request.args.get("page", 1, type=int)
 
-    return render_template("subject/subjects.html", subjects=subjects)
+    search = request.args.get("search", "")
+
+    subjects = SubjectService.search_subjects(search, page)
+
+    return render_template("subject/subjects.html", subjects=subjects, search=search)
 
 
 @subject.route("/add", methods=["GET", "POST"])

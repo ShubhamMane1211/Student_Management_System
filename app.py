@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from config import Config
 from database.db import db, login_manager
 from routes.auth import auth
-from routes.dashboard import dashboard
+# from routes.dashboard import dashboard
 from routes.main import main
 from routes.marks import marks
 from routes.report import report
@@ -34,7 +34,7 @@ def create_app():
     app.register_blueprint(subject)
     app.register_blueprint(marks)
     app.register_blueprint(report)
-    app.register_blueprint(dashboard)
+    # app.register_blueprint(dashboard)
 
     return app
 

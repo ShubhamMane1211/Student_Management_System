@@ -40,6 +40,11 @@ class StudentService:
         return Student.query.get_or_404(student_id)
 
     @staticmethod
+    def get_students(page):
+
+        return Student.query.order_by(Student.roll_no).paginate(page=page, per_page=10)
+
+    @staticmethod
     def update_student(student, form):
 
         existing = Student.query.filter(
@@ -75,13 +80,12 @@ class StudentService:
         db.session.commit()
 
     @staticmethod
-    def search_students(search):
+    def search_students(search, page):
 
-        if not search:
-            return Student.query.order_by(Student.roll_no).all()
+        query = Student.query
 
-        return (
-            Student.query.filter(
+        if search:
+            query = query.filter(
                 or_(
                     Student.roll_no.ilike(f"%{search}%"),
                     Student.first_name.ilike(f"%{search}%"),
@@ -90,6 +94,6 @@ class StudentService:
                     Student.class_name.ilike(f"%{search}%"),
                 )
             )
-            .order_by(Student.roll_no)
-            .all()
+        return query.order_by(Student.roll_no).paginate(
+            page=page, per_page=10, error_out=False
         )

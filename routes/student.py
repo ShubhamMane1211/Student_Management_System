@@ -11,12 +11,13 @@ student = Blueprint("student", __name__, url_prefix="/students")
 @login_required
 def students():
 
+    page = request.args.get("page", 1, type=int)
+
     search = request.args.get("search", "")
 
-    students = StudentService.search_students(search)
+    students = StudentService.search_students(search, page)
 
     return render_template("student/students.html", students=students, search=search)
-    return render_template("student/students.html", students=students)
 
 
 @student.route("/add", methods=["GET", "POST"])

@@ -1,5 +1,26 @@
 {% extends "base.html" %} {% block content %}
 
+<form method="GET" class="row mb-3">
+  <div class="col-md-8">
+    <input
+      type="text"
+      class="form-control"
+      name="search"
+      value="{{ search }}"
+      placeholder="Search by Student Name or Subject"
+    />
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-primary w-100">Search</button>
+  </div>
+
+  <div class="col-md-2">
+    <a href="{{ url_for('marks.view_marks') }}" class="btn btn-secondary w-100">
+      Clear
+    </a>
+  </div>
+</form>
 <div class="d-flex justify-content-between mb-3">
   <h2>Marks</h2>
 
@@ -22,7 +43,7 @@
   </thead>
 
   <tbody>
-    {% for mark in marks %}
+    {% for mark in marks.items %}
 
     <tr>
       <td>{{ mark.student.first_name }} {{ mark.student.last_name }}</td>
@@ -57,5 +78,49 @@ mark_id=mark.id) }}"
     {% endfor %}
   </tbody>
 </table>
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if marks.has_prev %}
+
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="{{ url_for('marks.view_marks',
+page=marks.prev_num,
+search=search) }}"
+      >
+        Previous
+      </a>
+    </li>
+
+    {% endif %} {% for page_num in marks.iter_pages() %} {% if page_num %}
+
+    <li class="page-item {% if page_num == marks.page %}active{% endif %}">
+      <a
+        class="page-link"
+        href="{{ url_for('marks.view_marks',
+page=page_num,
+search=search) }}"
+      >
+        {{ page_num }}
+      </a>
+    </li>
+
+    {% endif %} {% endfor %} {% if marks.has_next %}
+
+    <li class="page-item">
+      <a
+        class="page-link"
+        href="{{ url_for('marks.view_marks',
+page=marks.next_num,
+search=search) }}"
+      >
+        Next
+      </a>
+    </li>
+
+    {% endif %}
+  </ul>
+</nav>
 
 {% endblock %}
