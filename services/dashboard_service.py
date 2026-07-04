@@ -52,12 +52,19 @@ class DashboardService:
     def subject_statistics():
 
         return (
-            db.session.query(Subject, func.avg(Mark.marks).label("average"))
+            db.session.query(
+                Subject.subject_name, func.avg(Mark.marks).label("average")
+            )
             .join(Mark)
-            .group_by(Subject.id)
+            .group_by(Subject.subject_name)
             .order_by(func.avg(Mark.marks).desc())
             .all()
         )
+
+    @staticmethod
+    def recent_students():
+
+        return Student.query.order_by(Student.created_at.desc()).limit(5).all()
 
     @staticmethod
     def recent_marks():
