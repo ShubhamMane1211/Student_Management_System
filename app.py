@@ -26,7 +26,7 @@ def create_app():
 
     login_manager.login_message = "Please login first."
 
-    migrate = Migrate(app, db)
+    Migrate(app, db)
 
     app.register_blueprint(main)
     app.register_blueprint(auth)
