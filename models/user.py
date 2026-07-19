@@ -1,10 +1,11 @@
-from database.db import db,login_manager
 from datetime import datetime
+
 from flask_login import UserMixin
 
+from database.db import db, login_manager
 
-class User(UserMixin,db.Model):
 
+class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,7 +17,7 @@ class User(UserMixin,db.Model):
     password = db.Column(db.String(255), nullable=False)
 
     role = db.Column(
-        db.Enum("admin", "teacher"),
+        db.Enum("admin", "teacher", name="user_role_enum"),
         nullable=False,
         default="admin",
     )
@@ -28,7 +29,8 @@ class User(UserMixin,db.Model):
 
     def __repr__(self):
         return f"<User {self.username}>"
-    
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
